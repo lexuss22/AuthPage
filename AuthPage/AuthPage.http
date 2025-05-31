@@ -1,0 +1,6 @@
+@AuthPage_HostAddress = http://localhost:5194
+
+GET {{AuthPage_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
