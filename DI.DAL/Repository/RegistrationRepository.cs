@@ -1,7 +1,12 @@
-﻿using AuthPage.Model.Domain;
+﻿using DI.Contracts.Model.Domain;
 using Microsoft.AspNetCore.Identity;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace AuthPage.Repository
+namespace DI.DAL.Repository
 {
     public class RegistrationRepository : IRegistrationRepository
     {
@@ -22,9 +27,9 @@ namespace AuthPage.Repository
             if (userRegistrationModel != null)
             {
                 var result = await userManager.CreateAsync(user, userRegistrationModel.Password);
-                if(result.Succeeded)
+                if (result.Succeeded)
                 {
-                    if(userRegistrationModel.Roles != null && userRegistrationModel.Roles.Any())
+                    if (userRegistrationModel.Roles != null && userRegistrationModel.Roles.Any())
                     {
                         result = await userManager.AddToRolesAsync(user, userRegistrationModel.Roles);
                         if (result.Succeeded)

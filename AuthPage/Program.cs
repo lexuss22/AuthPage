@@ -1,9 +1,5 @@
-using AuthPage.Repository;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
+using DI.BLL.Services;
+using DI.BLL.Extansion;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,42 +11,10 @@ builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<AuthPage.Data.AuthDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("AuthDbConnection")));
+builder.Services.AddScoped<ILoginServices, LoginServices>();
+builder.Services.AddScoped<IRegistrationServices, RegistrationServices>();
+builder.Services.AddServiceExtansions(builder.Configuration);
 
-builder.Services.AddScoped<ITokenCreate ,TokenCreate>();
-builder.Services.AddScoped<ILoginRepository, LoginRepository>();
-builder.Services.AddScoped<IRegistrationRepository, RegistrationRepository>();
-
-builder.Services.AddIdentityCore<IdentityUser>()
-    .AddRoles<IdentityRole>()
-    .AddTokenProvider<DataProtectorTokenProvider<IdentityUser>>("AuthPageDb")
-    .AddEntityFrameworkStores<AuthPage.Data.AuthDbContext>()
-    .AddDefaultTokenProviders();
-
-builder.Services.Configure<IdentityOptions>(options =>
-{
-    // User settings
-    options.User.RequireUniqueEmail = true;
-    // Password settings
-    options.Password.RequireDigit = true;
-    options.Password.RequiredLength = 6;
-    options.Password.RequireNonAlphanumeric = false;
-    options.Password.RequireUppercase = true;
-    options.Password.RequireLowercase = true;
-});
-
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-        ValidAudience = builder.Configuration["Jwt:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
-    });
 
 var app = builder.Build();
 

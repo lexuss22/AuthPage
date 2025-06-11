@@ -1,17 +1,22 @@
-﻿using AuthPage.Model.Domain;
+﻿using DI.Contracts.Model.Domain;
 using Microsoft.AspNetCore.Identity;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace AuthPage.Repository
+namespace DI.DAL.Repository
 {
     public class LoginRepository : ILoginRepository
     {
+        private readonly ITokenRepository tokenRepository;
         private readonly UserManager<IdentityUser> userManager;
-        private readonly ITokenCreate tokenCreate;
 
-        public LoginRepository(UserManager<IdentityUser> userManager,ITokenCreate tokenCreate)
+        public LoginRepository(ITokenRepository tokenRepository,UserManager<IdentityUser> userManager)
         {
+            this.tokenRepository = tokenRepository;
             this.userManager = userManager;
-            this.tokenCreate = tokenCreate;
         }
         public async Task<string?> LoginAsync(UserLoginModel userLoginModel)
         {
@@ -22,7 +27,7 @@ namespace AuthPage.Repository
                 if (result)
                 {
                     var roles = await userManager.GetRolesAsync(user);
-                    return tokenCreate.CreateTokenAsync(user, roles.ToList());
+                    return tokenRepository.CreateToken(user, roles.ToList());
                 }
             }
             return null;
