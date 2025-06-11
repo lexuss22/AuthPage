@@ -16,7 +16,7 @@ namespace DI.DAL.Repository
         {
             this.userManager = userManager;
         }
-        public async Task<IdentityResult?> RegisterUserAsync(UserRegistrationModel userRegistrationModel)
+        public async Task<IdentityResult?> RegisterUserAsync(UserRegistrationRequest userRegistrationModel)
         {
             var user = new IdentityUser
             {

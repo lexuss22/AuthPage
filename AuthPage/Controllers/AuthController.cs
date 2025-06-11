@@ -10,20 +10,18 @@ namespace AuthPage.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IRegistrationServices registrationServices;
-        private readonly ILoginServices loginServices;
+        private readonly IAuthServices authServices;
 
-        public AuthController(IRegistrationServices registrationServices,ILoginServices loginServices)
+        public AuthController(IAuthServices authServices)
         {
-            this.registrationServices = registrationServices;
-            this.loginServices = loginServices;
+            this.authServices = authServices;
         }
 
         [HttpPost]
         [Route("Registration")]
-        public async Task<IActionResult> Registration([FromBody] UserRegistrationModel model)
+        public async Task<IActionResult> Registration([FromBody] UserRegistrationRequest model)
         {
-            var result = await registrationServices.Regist(model);
+            var result = await authServices.Regist(model);
             if (result != null)
             {
                 return Ok("User was registered!Please Login.");    
@@ -33,9 +31,9 @@ namespace AuthPage.Controllers
 
         [HttpPost]
         [Route("Login")]
-        public async Task<IActionResult> Login([FromBody] UserLoginModel model)
+        public async Task<IActionResult> Login([FromBody] UserLoginRequest model)
         {
-            var result = await loginServices.Login(model);
+            var result = await authServices.Login(model);
             if (result != null)
             {
                 return Ok(result);

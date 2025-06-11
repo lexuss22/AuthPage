@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Identity;
+using DI.BLL.Services;
 
 namespace DI.BLL.Extansion
 {
@@ -21,6 +22,8 @@ namespace DI.BLL.Extansion
             //Registering ConnectionString
             services.AddDbContext<AuthDbContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("AuthDbConnection")));
+            // Registering services with scoped lifetime
+            services.AddScoped<IAuthServices, AuthServices>();
 
             // Registering repositories with scoped lifetime
             services.AddScoped<ITokenRepository, TokenRepository>();

@@ -9,6 +9,6 @@ namespace DI.DAL.Repository
 {
     public interface ILoginRepository
     {
-        Task<string?> LoginAsync(UserLoginModel userLoginModel);
+        Task<string?> LoginAsync(UserLoginRequest userLoginModel);
     }
 }

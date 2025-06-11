@@ -11,8 +11,7 @@ builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<ILoginServices, LoginServices>();
-builder.Services.AddScoped<IRegistrationServices, RegistrationServices>();
+
 builder.Services.AddServiceExtansions(builder.Configuration);
 
 

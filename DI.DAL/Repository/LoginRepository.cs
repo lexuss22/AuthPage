@@ -18,7 +18,7 @@ namespace DI.DAL.Repository
             this.tokenRepository = tokenRepository;
             this.userManager = userManager;
         }
-        public async Task<string?> LoginAsync(UserLoginModel userLoginModel)
+        public async Task<string?> LoginAsync(UserLoginRequest userLoginModel)
         {
             var user = await userManager.FindByEmailAsync(userLoginModel.Email);
             if (user != null)

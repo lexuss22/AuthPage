@@ -9,8 +9,9 @@ using System.Threading.Tasks;
 
 namespace DI.BLL.Services
 {
-    public interface ILoginServices
+    public interface IAuthServices
     {
-        Task<LoginResponseDto?> Login(UserLoginModel userLoginModel);
+        Task<LoginResponseDto?> Login(UserLoginRequest userLoginModel);
+        Task<IdentityResult?> Regist(UserRegistrationRequest userRegistrationModel);
     }
 }

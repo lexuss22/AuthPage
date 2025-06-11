@@ -10,6 +10,6 @@ namespace DI.DAL.Repository
 {
     public interface IRegistrationRepository
     {
-        Task<IdentityResult?> RegisterUserAsync(UserRegistrationModel userRegistrationModel);
+        Task<IdentityResult?> RegisterUserAsync(UserRegistrationRequest userRegistrationModel);
     }
 }
